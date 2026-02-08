@@ -1,9 +1,8 @@
 jdk:
-  - openjdk11
+  - openjdk17
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libcurl4-openssl-dev
+  - apt-get update && apt-get install -y libcurl4-openssl-dev || sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev || echo "libcurl installation skipped"
 
 install:
-  - ./gradlew :openai-core:publishToMavenLocal :openai-client:publishToMavenLocal :openai-client-bom:publishToMavenLocal -Pgroup=$GROUP -Pversion=$VERSION -xtest -xsignMavenPublication
+  - ./gradlew :openai-core:publishToMavenLocal :openai-client:publishToMavenLocal :openai-client-bom:publishToMavenLocal -Pgroup=$GROUP -Pversion=$VERSION -PRELEASE_SIGNING_ENABLED=false -xtest
